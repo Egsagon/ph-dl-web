@@ -15,7 +15,7 @@ def alive_conn() -> None:
     
     while 1:
         
-        time.sleep(randint(4, 9) * 1000)
+        time.sleep(randint(4, 9))
         
         print('[ALIVE] Refreshing conn...')
         res = requests.get(addr)
