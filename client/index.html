@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>PH DL</title>
+    <link rel="stylesheet" href="client/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <h1><span>PH</span> DL</h1>
+
+    <form id="query">
+        <div id="queries"><input type="text"></div>
+        <button id="add_query_field"><i class="fa fa-plus-circle"></i></button>
+
+        <input type="checkbox" id="query-drop-toggle" onchange="query_drop_toggle(this)">
+        <label for="query-drop-toggle"><i class="fa fa-filter"></i></label>
+        <input type="submit" value="GO">
+    </form>
+
+    <div id="dropdown">
+        <h2>Filters & options</h2>
+
+        <p>quality</p>
+        <select id="quality">
+            <option value="best">Best</option>
+            <option value="middle">Middle</option>
+            <option value="worst">Low</option>
+        </select>
+    </div>
+
+    <div class="notification template">
+        <i class="fa fa-{{icon}}"></i>
+        <div><h3>{{title}}</h3><p>{{text}}</p></div>
+    </div>
+
+    <div id="content">
+        <h2>Videos</h2>
+
+        <div id="videos"></div>
+
+        <div id="cmd">
+            <button onclick="content_toggle(0)">Cancel</button>
+            <button onclick="download_all()">Download all</button>
+            <button onclick="document.location = '/'">Home</button>
+        </div>
+    </div>
+
+    <script src="client/doc.js"></script>
+    <script src="client/app.js"></script>
+</body>
+</html>
