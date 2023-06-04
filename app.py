@@ -1,19 +1,38 @@
+import time
 import flask
+import requests
+import threading
 import downloader
+from random import randint
 from flask_limiter import Limiter
 
 app = flask.Flask(__name__, static_folder = 'client/')
-
 table: downloader.Turntable = None
+
+def alive_conn() -> None:
+    
+    addr = 'https://alive-ph-dl.onrender.com'
+    
+    while 1:
+        
+        time.sleep(randint(20, 40) * 1000)
+        
+        print('[ALIVE] Refreshing conn...')
+        res = requests.get(addr)
+        print(f'[ALIVE] Done. We are at {res.text} iterations.')
 
 def initiate():
     '''
     Create the table and run the threads.
     '''
     
+    # Create the worker table
     global table
     table = downloader.Turntable(childs = 5)
     table.start()
+    
+    # Start the alive conn
+    threading.Thread(target = alive_conn).start()
 
 @app.route('/')
 def route_home():
