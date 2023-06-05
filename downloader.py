@@ -14,6 +14,27 @@ ALLOWED_QUALITIES = {
 
 RE_URL = r'https:\/\/..\.pornhub\.com\/view_video\.php\?viewkey=[a-z\d]{15}'
 
+COLORS = (100, 102, 103, 104, 105, 106, 107)
+
+
+def log(title: str, *text) -> None:
+    '''
+    Pretty log print.
+    '''
+    
+    # Attribute color to title
+    color = COLORS[ hash(title) % len(COLORS) ]
+    
+    print(f'[\033[{color}m{title.upper()}\033[0m]\033[{color - 10}m', *text, '\033[0m')
+
+def err(title: str, *text) -> None:
+    '''
+    Log an error.
+    '''
+    
+    print(f'[\033[101m{title.upper()}\033[0m]\033[91m', *text, '\033[0m')
+
+
 
 @dataclass
 class Call:
@@ -59,6 +80,8 @@ class Worker:
         self.id = id
         self.queue: list = []
         self.running = False
+        
+        self.title = f'WK-{id}'
     
     def run(self) -> None:
         '''
@@ -75,6 +98,7 @@ class Worker:
             call = self.queue.pop(0)
             
             print(f'[{self.id}] Processing', call)
+            log(self.title, 'Processing call:', id(call))
             
             call.path = f'client/output/{call.token}.mp4'
             
@@ -96,36 +120,36 @@ class Worker:
                 call.image = video.image
                 call.title = video.title
                 
-                print(f'[{self.id}] Fetched video page')
+                log(self.title, 'Fetched data')
+                
                 video.download(call.path,
                                call.quality,
                                callback = receiver,
                                quiet = True)
             
-            except Exception as err:
-                print(f'[{self.id}] DL/scrape error:', repr(err))
-                call.error = repr(err)
+            except Exception as error:
+                err(self.title, 'Download error:', error)
+                
+                call.error = repr(error)
                 call.fail = True
             
-            finally:
-                # Delete the call after 3min
-                
-                def d1():
-                    print(f'[{self.id}] Deleting call', call)
-                    del call
-                
-                threading.Timer(30000, d1)
+            # Clean call and file
+            filepath = call.path
             
-            if call.error: continue
-            
-            # Delete file
-            def d2():
-                print(f'[{self.id}] Hard deleting call', call)
+            def del_call():
+                log('cleaner', 'Deleting call', id(call))
                 del call
-                    
-                os.remove(call.path)
             
-            threading.Timer(1800000, d2)
+            def del_file():
+                log('cleaner', 'Deleting file', id(call))
+                
+                try: os.remove(filepath)
+                except Exception as error:
+                    err('cleaner', f'Failed to delete {filepath}, error:', error)
+            
+            # Delete call after 1min and file after 1h
+            threading.Timer(60_000, del_call)
+            threading.Timer(1_800_000 * 2, del_file) # 30min *2
     
     def start(self) -> None:
         '''
@@ -157,14 +181,17 @@ class Turntable:
             child = Worker(id = i)
             child.start()
             self.childs.append(child)
-            print('Started worker with id =', i)
+            
+            log('table', f'Started worker id={i}')
+        
+        log('table', 'Started all workers')
     
     def new(self, args: dict) -> str:
         '''
         Create a new call and returns a token.
         '''
         
-        print('[T] Received new call:', list(args.values()))
+        log('table', 'Handling request:', list(args.values()))
         
         call = Call(
             url = args.get('url', ''),
@@ -182,11 +209,11 @@ class Turntable:
             if len(worker.queue) < len(best.queue):
                 best = worker
         
-        # Queue request
-        print('[T] Queueing call to worker id =', worker.id)
-        best.queue.append(call)        
-        self.tracked.append(call)
+        # Queue request        
+        log('table', f'Assigning task to worker id={worker.id}')
         
+        best.queue.append(call)
+        self.tracked.append(call)
         return call
 
 # EOF

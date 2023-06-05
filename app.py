@@ -1,36 +1,21 @@
 import os
 import time
-import flask
 import requests
 import threading
-import downloader
 from random import randint
+
+import flask
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
 
+import downloader
+from downloader import log, err
+
 app = flask.Flask(__name__, static_folder = 'client/')
 table: downloader.Turntable = None
-colors = (100, 102, 103, 104, 105, 106, 107)
 
 limiter = Limiter(get_remote_address, app = app, storage_uri = 'memory://')
 
-
-def log(title: str, *text) -> None:
-    '''
-    Pretty log print.
-    '''
-    
-    # Attribute color to title
-    color = colors[ hash(title) % len(colors) ]
-    
-    print(f'[\033[{color}m{title.upper()}\033[0m]\033[{color - 10}m', *text, '\033[0m')
-
-def err(title: str, *text) -> None:
-    '''
-    Log an error.
-    '''
-    
-    print(f'[\033[101m{title.upper()}\033[0m]\033[91m', *text, '\033[0m')
 
 def alive_conn() -> None:
     
@@ -74,7 +59,7 @@ def initiate():
     log('init', 'Loading alive connector...')
     threading.Thread(target = alive_conn).start()
     
-    print('init', 'Initialisation phase passed.')
+    log('init', 'Initialisation phase successfull.')
 
 
 @app.route('/')
@@ -107,12 +92,12 @@ def route_download():
         log('route-dl', 'Successfully created job', call.token)
         return call.token
     
-    except AssertionError as err:
-        err('route-dl', 'Token creation assertion:', err)
-        return 'error:' + ' '.join(err.args), 400
+    except AssertionError as error:
+        err('route-dl', 'Token creation assertion:', error)
+        return 'error:' + ' '.join(error.args), 400
 
-    except Exception as err:
-        err('route-dl', 'Unhandled token creation error:', err)
+    except Exception as error:
+        err('route-dl', 'Unhandled token creation error:', error)
         return 'error:Unknown erro', 400
 
 @app.route('/status')
