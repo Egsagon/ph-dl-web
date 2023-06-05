@@ -43,9 +43,9 @@ def route_home():
     # for some reason
     if table is None: initiate()
     
-    print(f"{os.listdir('./') = }")
+    print(os.listdir('./'))
     
-    try: print(f"{os.listdir('./client/output') = }")
+    try: print(os.listdir('./client/output'))
     except Exception as err: print('fileshow err:', err)
     
     return flask.send_file('client/index.html',
