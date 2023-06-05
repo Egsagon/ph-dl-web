@@ -25,15 +25,14 @@ def log(title: str, *text) -> None:
     # Attribute color to title
     color = COLORS[ hash(title) % len(COLORS) ]
     
-    print(f'[\033[{color}m{title.upper()}\033[0m]\033[{color - 10}m', *text, '\033[0m')
+    print(f'\033[{color}m{title.upper()}\033[{color - 10}m', *text, '\033[0m')
 
 def err(title: str, *text) -> None:
     '''
     Log an error.
     '''
     
-    print(f'[\033[101m{title.upper()}\033[0m]\033[91m', *text, '\033[0m')
-
+    print(f'\033[101m{title.upper()}\033[91m', *text, '\033[0m')
 
 
 @dataclass
@@ -106,13 +105,23 @@ class Worker:
             if not os.path.exists('client/output/'):
                 os.makedirs('client/output/')
             
+            partials = 0
+            
             def receiver(cur: int, total: int) -> None:
                 # Handle updating the call data
                 
+                # Update call status
                 call.progress = cur
                 call.total = total
                 
-                print(f'[{self.id}] Downloading', cur, '/', total)
+                # Log
+                partials += 1
+                if partials > 50:
+                    partials = 0
+                    log(self.title, f'Downloading {cur}/{total}')
+                
+                if cur + 1 == total:
+                    log(self.title, f'Download finished.')
             
             # Download
             try:
