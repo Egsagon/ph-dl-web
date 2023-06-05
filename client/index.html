@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>PH DL</title>
+    <link rel="icon" type="image/x-icon" href="client/favicon.ico">
     <link rel="stylesheet" href="client/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
@@ -40,10 +41,31 @@
         <div id="videos"></div>
 
         <div id="cmd">
-            <button onclick="content_toggle(0)">Cancel</button>
+            <button onclick="
+                content_toggle(0);
+                setTimeout(() => {get('.thumb', 1).forEach(node => node.remove())}, 1000)"
+            >Cancel</button>
             <button onclick="download_all()">Download all</button>
             <button onclick="document.location = '/'">Home</button>
         </div>
+    </div>
+
+    <button id="readme" onclick="readme.display = 'flex'">README</button>
+
+    <div id="readme-content">
+        <h2>README</h2>
+
+        <p>
+            This masterpiece is a proof of concept for
+            <a href="https://github.com/Egsagon/pornhub-fetch">PHFetch</a>
+             - A Pornhub downloading interface made in Python.<br><br>
+            This website is hosted on a free server and is therefore really slow to serve and download videos.<br>
+            This website is not meant for actual use. It is inefficient, unoptimized and not secured.<br>
+            This website is not stable and might crash, as well as the server hosting it.<br><br>
+            Egsagon - 2023
+        </p>
+
+        <button onclick="readme.display = 'none'">Close</button>
     </div>
 
     <script src="client/doc.js"></script>

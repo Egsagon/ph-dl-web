@@ -58,6 +58,7 @@ if (0 && !document.cookie.includes('used=1;')) {
 
 query_drop = get('#dropdown')
 content = get('#content')
+readme = get('#readme-content').style
 
 query_drop_toggle = (node) => {
     /* Toggle the filters dropdown menu */

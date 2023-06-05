@@ -275,6 +275,67 @@ h1 span {
     background-color: var(--bg);
 }
 
+#readme {
+    all: unset;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    margin: 20px;
+    color: var(--fg);
+    padding: 4px;
+    text-decoration: underline;
+    transition: all ease-in-out .2s;
+    cursor: pointer;
+}
+
+#readme:hover {
+    background-color: var(--fg);
+    color: var(--bg);
+}
+
+#readme-content {
+    position: fixed;
+    width: 85vw;
+    height: 85vw;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--bg);
+    border: 2px solid var(--fg);
+    display: none; /* flex by default but hidden*/
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    color: var(--fg);
+    border-radius: 30px;
+    border-bottom-left-radius: 5px;
+    transition: all ease-in-out .3s;
+}
+
+#readme-content h2 {
+    font-size: 40px;
+}
+
+#readme-content p {
+    font-size: 20px;
+}
+
+#readme-content button {
+    font-size: 20px;
+    color: var(--fg);
+    background-color: var(--bg);
+    padding: 10px;
+    margin: 10px;
+    border: 2px solid var(--fg);
+    border-radius: 5px;
+    transition: all ease-in-out .3s;
+}
+
+#readme-content button:hover {
+color: var(--bg);
+    background-color: var(--fg);
+}
+
 /* Animations */
 
 @keyframes show-dropdown {
