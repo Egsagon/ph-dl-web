@@ -23,9 +23,11 @@ If you wished to use a local version of PHFetch, try [PH-downloader-webui](https
 ### Structure
 On start, the server creates a `Turntable` object responsible for distributing download requests to the least busy workers. `Workers` are threads that have their own queue. Each time a request (a `Call` object) is received, it will be assigned to a worker that will start downloading it or put in its queue. During the download, the frontends are given a token representing their requests. With it, they will be able to make /status requests to get the status of the download (every 3 seconds) and download the video file once the server as finished uploading it locally.
 
-### Note
-The frontend is very likely to be unstable.
+### Notes
+- The frontend is very likely to be unstable.
 
-The frontend has extra features, like downloading multiple videos (the + button), choosing a quality, auto-checking for video availablity, etc.
+- The frontend has extra features, like downloading multiple videos (the + button), choosing a quality, auto-checking for video availablity, etc.
 
-The server is running on a free render.com service [there](https://ph-dl.onrender.com/) so you can check it out (very laggy tho).
+- The server is running on a free render.com service [there](https://ph-dl.onrender.com/) so you can check it out (very laggy tho).
+
+- The version of the PHFetch package in the git repo is slighly modified from the version 1 of PHFetch to support older python version such as 3.7.
