@@ -105,8 +105,6 @@ class Worker:
             if not os.path.exists('client/output/'):
                 os.makedirs('client/output/')
             
-            partials = 0
-            
             def receiver(cur: int, total: int) -> None:
                 # Handle updating the call data
                 
@@ -117,9 +115,7 @@ class Worker:
                 call.total = total
                 
                 # Log
-                partials += 1
-                if partials > 50:
-                    partials = 0
+                if False:
                     log(self.title, f'Downloading {cur}/{total}')
                 
                 if cur + 1 == total:
