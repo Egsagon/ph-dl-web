@@ -14,7 +14,7 @@ python3 app.py
 
 To run for production, use Gunicorn.
 ```sh
-gunicorn --timeout app:app
+gunicorn --timeout 0 app:app
 ```
 ###### Note: removing worker timeout is needed for long downloads
 
