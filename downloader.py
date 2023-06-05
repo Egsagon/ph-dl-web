@@ -1,5 +1,4 @@
 import os
-import re
 import uuid
 import phfetch
 import threading

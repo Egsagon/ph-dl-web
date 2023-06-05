@@ -1,3 +1,4 @@
+import os
 import time
 import flask
 import requests
@@ -41,6 +42,11 @@ def route_home():
     # We need to run that after gunicorn has started
     # for some reason
     if table is None: initiate()
+    
+    print(f"{os.listdir('./') = }")
+    
+    try: print(f"{os.listdir('./client/output') = }")
+    except Exception as err: print('fileshow err:', err)
     
     return flask.send_file('client/index.html',
                            mimetype = 'text/html')
