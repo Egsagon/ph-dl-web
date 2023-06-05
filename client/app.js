@@ -92,6 +92,9 @@ get('#query').addEventListener('submit', ev => {
     us = []
     get('#queries input', 1).forEach(ub => {us.push(ub.value)})
 
+    // Remove precedent videos
+    get('.thumb', 1).forEach(node => node.remove())
+
     // Start the download
     download(us, get('#quality').value)
 })

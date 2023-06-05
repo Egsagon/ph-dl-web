@@ -71,7 +71,7 @@ get('#add_query_field').onclick = (ev) => {
     /* Add a new url field */
 
     ev.preventDefault()
-    get('#queries').appendChild(document.createElement('input'))
+    get('#queries').appendChild(document.createElement('input')) // TODO bind enter to dl func
 
     // Reload bindings
     bind_urlboxes()

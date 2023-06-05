@@ -29,7 +29,7 @@ def initiate():
     
     # Create the worker table
     global table
-    table = downloader.Turntable(childs = 5)
+    table = downloader.Turntable(childs = 3)
     table.start()
     
     # Start the alive conn
@@ -44,7 +44,6 @@ def route_home():
     if table is None: initiate()
     
     print(os.listdir('./'))
-    
     try: print(os.listdir('./client/output'))
     except Exception as err: print('fileshow err:', err)
     
