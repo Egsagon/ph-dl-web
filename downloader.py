@@ -115,7 +115,7 @@ class Worker:
                     print(f'[{self.id}] Deleting call', call)
                     del call
                 
-                threading.Timer(10000, d1)
+                threading.Timer(30000, d1)
             
             if call.error: continue
             
@@ -126,7 +126,7 @@ class Worker:
                     
                 os.remove(call.path)
             
-            threading.Timer(30000, d2)
+            threading.Timer(1800000, d2)
     
     def start(self) -> None:
         '''
