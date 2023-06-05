@@ -27,3 +27,5 @@ On start, the server creates a `Turntable` object responsible for distributing d
 The frontend is very likely to be unstable.
 
 The frontend has extra features, like downloading multiple videos (the + button), choosing a quality, auto-checking for video availablity, etc.
+
+The server is running on a free render.com service [there](ph-dl.onrender.com/) so you can check it out (very laggy tho).
